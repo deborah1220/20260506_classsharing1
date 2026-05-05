@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 관내공개수업 나눔</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Nanum+Gothic:wght@400;700;800&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --math-primary: #3a6bbf;
+    --math-accent: #f0a030;
+    --math-light: #eef4ff;
+    --ai-primary: #2e8b6a;
+    --ai-accent: #38c99a;
+    --ai-light: #eafaf4;
+    --neutral: #f7f5f2;
+    --text-dark: #2a2a2a;
+    --text-mid: #555;
+    --text-light: #999;
+    --white: #ffffff;
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    --radius: 20px;
+    --font-round: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-round);
+    background: #f0eeea;
+    color: var(--text-dark);
+    min-height: 100vh;
+    font-size: 16px;
+  }
+
+  .site-header {
+    background: linear-gradient(135deg, #3a6bbf 0%, #2e8b6a 100%);
+    color: var(--white);
+    padding: 32px 40px 28px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .site-header .title-block .klass { font-size: 12px; letter-spacing: .15em; color: rgba(255,255,255,0.75); margin-bottom: 8px; font-weight: 700; }
+  .site-header .title-block h1 { font-family: 'Black Han Sans', var(--font-round); font-size: 42px; font-weight: 400; line-height: 1.25; letter-spacing: -0.02em; }
+  .site-header .title-block h1 span { color: #ffe080; }
+  .site-header .meta { font-size: 13px; color: rgba(255,255,255,0.8); text-align: right; line-height: 2; flex-shrink: 0; font-weight: 700; }
+
+  .nav-tabs {
+    display: flex;
+    background: #fff;
+    padding: 0 32px;
+    border-bottom: 2px solid #e8e4e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .nav-tab {
+    padding: 16px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #aaa;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all .2s;
+    user-select: none;
+    font-family: var(--font-round);
+  }
+  .nav-tab:hover { color: #666; }
+  .nav-tab.active-math { color: var(--math-primary); border-bottom-color: var(--math-primary); }
+  .nav-tab.active-ai { color: var(--ai-primary); border-bottom-color: var(--ai-primary); }
+  .nav-tab.active-compare { color: #9060d0; border-bottom-color: #9060d0; }
+
+  main { padding: 36px 40px 60px; max-width: 1100px; margin: 0 auto; }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .section-hero {
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .section-hero.math { background: linear-gradient(120deg, #3a6bbf, #5a9ae0); color: var(--white); }
+  .section-hero.ai   { background: linear-gradient(120deg, #2e8b6a, #4ab890); color: var(--white); }
+  .section-hero .badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 30px;
+    margin-bottom: 14px;
+    font-weight: 800;
+  }
+  .section-hero.math .badge { background: var(--math-accent); color: #fff; }
+  .section-hero.ai   .badge { background: #fff; color: var(--ai-primary); }
+  .section-hero h2 { font-family: 'Black Han Sans', var(--font-round); font-size: 24px; font-weight: 400; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .section-hero .sub { font-size: 15px; opacity: .85; font-weight: 700; }
+  .section-hero .deco {
+    position: absolute; right: 36px; top: 50%; transform: translateY(-50%);
+    font-size: 96px; opacity: .08; font-weight: 900; line-height: 1;
+    user-select: none;
+  }
+  .section-hero .stats { display: flex; gap: 28px; margin-top: 22px; }
+  .section-hero .stat .num { font-size: 32px; font-weight: 800; line-height: 1; }
+  .section-hero .stat .lbl { font-size: 12px; opacity: .75; margin-top: 3px; font-weight: 700; }
+
+  .block-title { font-size: 13px; font-weight: 800; letter-spacing: .08em; color: var(--text-light); margin-bottom: 16px; }
+
+  .keyword-section { margin-bottom: 32px; }
+  .keyword-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+  .kw { padding: 8px 16px; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: default; transition: transform .15s; line-height: 1.4; }
+  .kw:hover { transform: scale(1.06); }
+  .kw-math-1 { background: var(--math-primary); color: #fff; font-size: 16px; padding: 10px 20px; }
+  .kw-math-2 { background: #5a9ae0; color: #fff; font-size: 15px; }
+  .kw-math-3 { background: #dde8fa; color: #2a4a8a; font-size: 14px; }
+  .kw-math-4 { background: #eef1f8; color: #556; font-size: 13px; }
+  .kw-ai-1   { background: var(--ai-primary); color: #fff; font-size: 16px; padding: 10px 20px; }
+  .kw-ai-2   { background: #3aaa80; color: #fff; font-size: 15px; }
+  .kw-ai-3   { background: #c8f0e0; color: #1a5a40; font-size: 14px; }
+  .kw-ai-4   { background: #eef6f2; color: #446655; font-size: 13px; }
+
+  .progress-section { margin-bottom: 32px; }
+  .bar-list { display: flex; flex-direction: column; gap: 14px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text-dark); }
+  .bar-label span:last-child { color: var(--text-light); font-size: 13px; }
+  .bar-track { height: 10px; background: #e4e0d8; border-radius: 6px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; transition: width 1.1s cubic-bezier(.4,0,.2,1); width: 0; }
+  .bar-fill.math { background: linear-gradient(90deg, var(--math-primary), var(--math-accent)); }
+  .bar-fill.ai   { background: linear-gradient(90deg, var(--ai-primary), var(--ai-accent)); }
+
+  .highlights { margin-bottom: 32px; }
+  .quote-list { display: flex; flex-direction: column; gap: 12px; }
+  .quote-item {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 20px 22px 16px;
+    border-left: 5px solid var(--math-accent);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--text-dark);
+    font-weight: 400;
+  }
+  .quote-item.ai-quote { border-left-color: var(--ai-accent); }
+  .quote-item .q-from { font-size: 12px; color: var(--text-light); margin-top: 8px; font-weight: 700; }
+
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+  .compare-col { background: var(--white); border-radius: var(--radius); padding: 26px; box-shadow: var(--card-shadow); }
+  .compare-col h3 { font-size: 16px; font-weight: 800; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid; }
+  .compare-col.math h3 { color: var(--math-primary); border-color: var(--math-accent); }
+  .compare-col.ai   h3 { color: var(--ai-primary);   border-color: var(--ai-accent); }
+  .theme-tag-list { display: flex; flex-direction: column; gap: 10px; }
+  .theme-tag { display: flex; align-items: flex-start; gap: 10px; padding: 13px 14px; border-radius: 12px; font-size: 14px; line-height: 1.7; }
+  .theme-tag.math-t { background: var(--math-light); }
+  .theme-tag.ai-t   { background: var(--ai-light); }
+  .theme-tag .icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .theme-tag .text b { display: block; font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+
+  .common-block {
+    background: linear-gradient(135deg, #e8f2ff, #e8faf2);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    color: var(--text-dark);
+    margin-bottom: 32px;
+    border: 1.5px solid #d0e4f8;
+  }
+  .common-block .block-title { color: #6688aa; }
+  .common-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+  .common-item { padding: 18px; border-radius: 14px; background: rgba(255,255,255,0.85); border: 1px solid #ddeeff; }
+  .common-item .emoji { font-size: 24px; margin-bottom: 10px; }
+  .common-item .ci-title { font-size: 14px; font-weight: 800; color: #2a3a5a; margin-bottom: 6px; }
+  .common-item .ci-desc  { font-size: 13px; color: #556677; line-height: 1.7; }
+
+  .discussion-block {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--card-shadow);
+  }
+  .q-list { display: flex; flex-direction: column; gap: 12px; }
+  .q-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: 14px; background: #f5f3ef; border: 1px solid #e8e4de; }
+  .q-num { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #fff; background: var(--math-primary); }
+  .q-item p { font-size: 15px; line-height: 1.8; color: var(--text-dark); padding-top: 4px; font-weight: 400; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .section.visible > * { animation: fadeUp .35s ease both; }
+  .section.visible > *:nth-child(2) { animation-delay: .06s; }
+  .section.visible > *:nth-child(3) { animation-delay: .12s; }
+  .section.visible > *:nth-child(4) { animation-delay: .18s; }
+  .section.visible > *:nth-child(5) { animation-delay: .24s; }
+  .section.visible > *:nth-child(6) { animation-delay: .30s; }
+  .section.visible > *:nth-child(7) { animation-delay: .36s; }
+
+  /* ── 모바일 최적화 ── */
+  @media (max-width: 640px) {
+    body { font-size: 15px; }
+
+    .site-header {
+      padding: 20px 18px 18px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .site-header .title-block h1 { font-size: 28px; }
+    .site-header .title-block .klass { font-size: 11px; margin-bottom: 6px; }
+    .site-header .meta { font-size: 12px; text-align: left; line-height: 1.8; }
+
+    .nav-tabs { padding: 0 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .nav-tab { padding: 13px 14px; font-size: 13px; white-space: nowrap; flex-shrink: 0; }
+
+    main { padding: 16px 14px 48px; }
+
+    .section-hero { padding: 22px 18px; margin-bottom: 20px; }
+    .section-hero h2 { font-size: 19px; }
+    .section-hero .sub { font-size: 13px; }
+    .section-hero .deco { font-size: 60px; right: 16px; }
+    .section-hero .stats { gap: 18px; margin-top: 16px; flex-wrap: wrap; }
+    .section-hero .stat .num { font-size: 26px; }
+    .section-hero .stat .lbl { font-size: 11px; }
+
+    .compare-grid { grid-template-columns: 1fr; gap: 14px; }
+    .compare-col { padding: 18px 16px; }
+    .compare-col h3 { font-size: 14px; }
+    .theme-tag { font-size: 13px; padding: 10px 12px; }
+
+    .common-block { padding: 18px 16px; }
+    .common-items { grid-template-columns: 1fr; gap: 10px; }
+    .common-item { padding: 14px; }
+    .common-item .ci-title { font-size: 13px; }
+    .common-item .ci-desc { font-size: 12px; }
+
+    .discussion-block { padding: 18px 14px; }
+    .q-item { padding: 14px 14px; }
+    .q-item p { font-size: 14px; }
+
+    .keyword-cloud { gap: 8px; }
+    .kw { padding: 7px 12px; font-size: 13px; }
+    .kw-math-1, .kw-ai-1 { font-size: 14px; padding: 8px 14px; }
+
+    .bar-label { font-size: 13px; }
+    .quote-item { font-size: 14px; padding: 16px 16px 12px; }
+
+    .block-title { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="title-block">
+    <div class="klass">2026 · 1학기 관내 공개수업 나눔</div>
+    <h1>수업 <span>보물 찾기</span> 💎</h1>
+  </div>
+  <div class="meta">
+    4교시 · 한현근 선생님 (대수)<br>
+    5교시 · 정회진 선생님 (인공지능기초)
+  </div>
+</header>
+
+<nav class="nav-tabs">
+  <div class="nav-tab active-math" onclick="showSection('math')">🔢 4교시 — 한현근 선생님</div>
+  <div class="nav-tab" onclick="showSection('ai')">🤖 5교시 — 정회진 선생님</div>
+  <div class="nav-tab" onclick="showSection('compare')">✨ 공통 이야기 &amp; 나눔 질문</div>
+</nav>
+
+<main>
+
+<!-- ═══ MATH ═══ -->
+<div class="section visible" id="section-math">
+
+  <div class="section-hero math">
+    <div class="badge">4교시 · 대수</div>
+    <h2>한현근 선생님 — 등차수열 × 타일 디자인</h2>
+    <p class="sub">시각디자인과 학생들의 감각과 수학 개념을 연결한 에듀테크 수업</p>
+    <div class="stats">
+      <div class="stat"><div class="num">9</div><div class="lbl">참관 교사</div></div>
+      <div class="stat"><div class="num">27</div><div class="lbl">발견·박수·동행 피드백</div></div>
+      <div class="stat"><div class="num">3</div><div class="lbl">활동 단계</div></div>
+    </div>
+    <div class="deco">∑</div>
+  </div>
+
+  <div class="keyword-section">
+    <div class="block-title">💬 참관 교사들이 가장 많이 언급한 키워드</div>
+    <div class="keyword-cloud">
+      <span class="kw kw-math-1">에듀테크 활용</span>
+      <span class="kw kw-math-1">시각화 · 타일 디자인</span>
+      <span class="kw kw-math-2">전체 참여</span>
+      <span class="kw kw-math-2">게임 · 퀴즈 요소</span>
+      <span class="kw kw-math-2">개인→모둠→학급 흐름</span>
+      <span class="kw kw-math-3">실시간 리더보드</span>
+      <span class="kw kw-math-3">QR 코드 이동 수업</span>
+      <span class="kw kw-math-3">학과 연계</span>
+      <span class="kw kw-math-3">난이도별 문항</span>
+      <span class="kw kw-math-4">또래 학습</span>
+      <span class="kw kw-math-4">협동학습</span>
+      <span class="kw kw-math-4">색깔 활용</span>
+      <span class="kw kw-math-4">공차 · 첫째항</span>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="block-title">🏅 항목별 언급 빈도</div>
+    <div class="bar-list">
+      <div class="bar-item">
+        <div class="bar-label"><span>에듀테크 · 디지털 도구 활용</span><span>9건</span></div>
+        <div class="bar-track"><div class="bar-fill math" data-w="100%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>수학 개념의 시각적 디자인 연계</span><span>8건</span></div>
+        <div class="bar-track"><div class="bar-fill math" data-w="89%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>소외 없는 전체 학생 참여</span><span>7건</span></div>
+        <div class="bar-track"><div class="bar-fill math" data-w="78%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>게임 · 퀴즈 요소로 흥미 유발</span><span>7건</span></div>
+        <div class="bar-track"><div class="bar-fill math" data-w="78%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>개인→모둠→학급 단계적 흐름</span><span>5건</span></div>
+        <div class="bar-track"><div class="bar-fill math" data-w="56%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>학과 특성(시각디자인) 반영</span><span>5건</span></div>
+        <div class="bar-track"><div class="bar-fill math" data-w="56%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="block-title">✍️ 발견 — 아이들의 배움이 반짝인 순간</div>
+    <div class="quote-list">
+      <div class="quote-item">
+        정적인 수학 수업의 틀을 깨고 게임 요소를 활용하여 몰입하는 학생들의 모습이 인상적이었습니다. 문제를 먼저 해결한 모둠이 다른 모둠의 학습을 돕는 공동체적 학습이 이뤄지는 것을 확인할 수 있었습니다.
+        <div class="q-from">— 서찬원 선생님</div>
+      </div>
+      <div class="quote-item">
+        스스로 제작한 패턴의 첫째항, 공차를 자신 있게 말하는 학생들의 모습. 타일 디자인을 보고 "수박 같다, 노란색이 예쁘다" 말하며 눈을 떼지 못하는 학생들의 모습.
+        <div class="q-from">— 안은아 선생님</div>
+      </div>
+      <div class="quote-item">
+        수열의 원리가 디자인 패턴으로 시각화 되는 순간, 서로 다른 타일의 패턴을 비교하고 분석하는 순간이 아이들의 배움이 반짝인 순간이었습니다.
+        <div class="q-from">— 김미학 선생님</div>
+      </div>
+      <div class="quote-item">
+        참관 오신 선생님들 사이사이로 열심히 다니며 적극적인 학생 활동이 보인 순간, 각자의 공식이 합쳐져 우리 반의 패턴 디자인이 완성된 순간.
+        <div class="q-from">— 맹정은 선생님</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="block-title">👏 박수 — 동료 교사로서 감탄한 점</div>
+    <div class="quote-list">
+      <div class="quote-item">
+        소외되는 학생 없이 단계별로 사고를 확장해 나갈 수 있도록 설계된 수업 흐름에 감명 받았습니다. 개인→모둠→학급 전체 활동으로 이어지는 흐름이 훌륭했습니다.
+        <div class="q-from">— 서찬원 선생님</div>
+      </div>
+      <div class="quote-item">
+        목소리가 엄청 크고 수업 시간의 열정이 대단함. 학생들과의 상호작용이 매우 좋았음. 디지털을 활용한 수업 운영과 실생활과 접목시킨 부분이 인상적이었어요.
+        <div class="q-from">— 김복례 선생님</div>
+      </div>
+      <div class="quote-item">
+        공개수업이 많이 부담되셨을 텐데 부드러운 분위기로 학습이 이루어지도록 이끄는 모습이 인상적이였어요. 수업의 흐름을 끝까지 잡고 이어가는 모습도 인상적이였습니다.
+        <div class="q-from">— 임예옥 선생님</div>
+      </div>
+      <div class="quote-item">
+        학습 목표를 달성하기 위해 학생들의 상황에 맞는 프로그램을 구상하고 개발한 점, 한 사람도 제외됨 없이 모두 참여할 수 있게 수업을 구조화한 점이 대단합니다.
+        <div class="q-from">— 임태식 선생님</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="block-title">💡 동행 — 내 수업으로 가져가고 싶은 아이디어</div>
+    <div class="quote-list">
+      <div class="quote-item">
+        에듀테크를 잘 활용하여 학생들이 바로바로 자신이 참여한 부분의 점수를 알 수 있도록 만든 프로그램을 사용해 보고 싶다.
+        <div class="q-from">— 우소영 선생님</div>
+      </div>
+      <div class="quote-item">
+        디지털 도구와 AI 플랫폼을 수업의 도구로 자연스럽게 녹여낸 에듀테크 활용 능력을 배우고 싶습니다.
+        <div class="q-from">— 서찬원 선생님</div>
+      </div>
+      <div class="quote-item">
+        수학 수업을 AI를 활용하여 모든 학생들이 즐겁게 참여할 수 있도록 구성한 점이 좋았음. AI를 활용하는 구체적인 방법을 알고 싶음.
+        <div class="q-from">— 황윤현 선생님</div>
+      </div>
+      <div class="quote-item">
+        클로드 앱을 배워서 활용하고 싶다. / AI클래쓰를 활용해서 수업해보고 싶어요.
+        <div class="q-from">— 최은진 선생님 · 박정주 선생님</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ AI ═══ -->
+<div class="section" id="section-ai">
+
+  <div class="section-hero ai">
+    <div class="badge">5교시 · 인공지능기초</div>
+    <h2>정회진 선생님 — AI 편향성 × 토론·모둠활동</h2>
+    <p class="sub">AI 윤리를 학생 경험과 연결한 쌍방향 토론 수업</p>
+    <div class="stats">
+      <div class="stat"><div class="num">8</div><div class="lbl">참관 교사</div></div>
+      <div class="stat"><div class="num">24</div><div class="lbl">발견·박수·동행 피드백</div></div>
+      <div class="stat"><div class="num">2</div><div class="lbl">핵심 주제</div></div>
+    </div>
+    <div class="deco">AI</div>
+  </div>
+
+  <div class="keyword-section">
+    <div class="block-title">💬 참관 교사들이 가장 많이 언급한 키워드</div>
+    <div class="keyword-cloud">
+      <span class="kw kw-ai-1">AI 편향성 인식</span>
+      <span class="kw kw-ai-1">토론 · 쌍방향 수업</span>
+      <span class="kw kw-ai-2">심리적 안전감</span>
+      <span class="kw kw-ai-2">에듀테크 솔루션</span>
+      <span class="kw kw-ai-2">학생 주도 발표</span>
+      <span class="kw kw-ai-3">트롤리 딜레마</span>
+      <span class="kw kw-ai-3">편향방지위원회</span>
+      <span class="kw kw-ai-3">실시간 투표 시각화</span>
+      <span class="kw kw-ai-3">캔바 협업</span>
+      <span class="kw kw-ai-4">디지털 시민 역량</span>
+      <span class="kw kw-ai-4">또박또박 발음</span>
+      <span class="kw kw-ai-4">친근한 피드백</span>
+      <span class="kw kw-ai-4">열정 · 준비</span>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="block-title">🏅 항목별 언급 빈도</div>
+    <div class="bar-list">
+      <div class="bar-item">
+        <div class="bar-label"><span>AI 윤리 · 편향성 주제 선택</span><span>8건</span></div>
+        <div class="bar-track"><div class="bar-fill ai" data-w="100%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>쌍방향 토론 · 자유로운 의견 공유</span><span>7건</span></div>
+        <div class="bar-track"><div class="bar-fill ai" data-w="88%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>에듀테크(캔바 · AI클래스 등) 활용</span><span>6건</span></div>
+        <div class="bar-track"><div class="bar-fill ai" data-w="75%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>교사의 세심한 피드백 · 발음 · 어휘</span><span>5건</span></div>
+        <div class="bar-track"><div class="bar-fill ai" data-w="63%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>학생들의 적극적 참여 · 눈빛</span><span>5건</span></div>
+        <div class="bar-track"><div class="bar-fill ai" data-w="63%"></div></div>
+      </div>
+      <div class="bar-item">
+        <div class="bar-label"><span>실시간 결과 시각화 (투표 · 리더보드)</span><span>4건</span></div>
+        <div class="bar-track"><div class="bar-fill ai" data-w="50%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="block-title">✍️ 발견 — 아이들의 배움이 반짝인 순간</div>
+    <div class="quote-list">
+      <div class="quote-item ai-quote">
+        AI 모델이 내포할 수 있는 외모 및 학력 편향성 등의 윤리 문제를 실생활과 연결하여 비판적으로 고찰하고, 심리적 안전감을 바탕으로 동료들과 스스럼없이 의견을 공유하며 인공지능 윤리 의식을 내면화하는 모습이 인상적입니다.
+        <div class="q-from">— 김진실 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        딜레마에 대한 생각을 도형으로 투표할 때 태블릿을 활용하여 주도적으로 투표하고, 직관적으로 그 결과가 화면에 보였을 때 서로의 생각을 공유하며 반짝였습니다.
+        <div class="q-from">— 사재은 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        트롤리의 딜레마를 통해 인공지능의 편향성에 대한 철학적 문제에 자연스럽게 관심이 전이되는 과정이 놀라웠습니다. 편향방지위원회 역할을 통해 모둠의 분위기가 활발해지고 발산적 사고가 일어났습니다.
+        <div class="q-from">— 이향재 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        인공지능도 편향된 사고로 잘못된 의사결정을 내릴 수 있음을 알게 되는 모습. 자유로운 학습 분위기 조성으로 학생의 의사 표현이 활발했습니다.
+        <div class="q-from">— 김현자 선생님</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="block-title">👏 박수 — 동료 교사로서 감탄한 점</div>
+    <div class="quote-list">
+      <div class="quote-item ai-quote">
+        학습자의 눈높이에서 수평적으로 상호작용하며, 학생들의 거친 답변을 교과 맥락에 맞는 정교한 어휘로 다듬어 주는 세심한 피드백이 탁월했습니다.
+        <div class="q-from">— 김진실 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        편향에 대해 모둠활동을 할 때 쉬지 않고 모둠 지도를 하고, 잘 따라가지 못하는 친구들도 시간과 도움을 제공하며 수업에 참여하도록 한 열정이 너무 좋았습니다.
+        <div class="q-from">— 사재은 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        또박또박 발음이 좋고 편안한 어휘와 화법을 사용하여 편안한 수업을 진행함. 에듀테크를 교실 수업에 적용시킨 사례로 집단지성의 협의를 구하는 수업 진행이 자유롭고 편안해 보였음.
+        <div class="q-from">— 김복례 선생님</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights">
+    <div class="block-title">💡 동행 — 내 수업으로 가져가고 싶은 아이디어</div>
+    <div class="quote-list">
+      <div class="quote-item ai-quote">
+        에듀테크솔루션·AI클래스를 탭으로 활용하여 바로바로 공유하는 점을 함께 배우고 실천하고 싶습니다. 학생 주도와 강의식 수업이 적절하게 조화를 이루는 점을 배우고 싶습니다.
+        <div class="q-from">— 사재은 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        자칫 추상적이고 어렵게 느껴질 수 있는 인공지능의 핵심 개념을 학생들의 경험과 밀접한 활동형 과제로 재구성하여 학습 진입장벽을 낮추는 수업 운영 전략을 배워 도전해보고 싶습니다.
+        <div class="q-from">— 김진실 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        에듀테크 솔루션을 활용한 모둠 수업을 해보고 싶어요.
+        <div class="q-from">— 박선영 선생님</div>
+      </div>
+      <div class="quote-item ai-quote">
+        미디어 자료를 활용하여 학생들과의 쌍방향 소통을 활성화하고, 이를 통해 학습 참여를 유도하며 자연스럽게 학습 동기를 강화하는 수업 방식을 실제 수업에 적용해보고자 합니다.
+        <div class="q-from">— 이영숙 선생님</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ COMPARE ═══ -->
+<div class="section" id="section-compare">
+
+  <div class="common-block">
+    <div class="block-title">🌟 두 수업이 공통으로 받은 찬사 — 우리 학교 수업의 강점</div>
+    <div class="common-items">
+      <div class="common-item">
+        <div class="emoji">📱</div>
+        <div class="ci-title">에듀테크의 자연스러운 녹아듦</div>
+        <div class="ci-desc">도구를 위한 도구가 아닌, 수업 흐름 속에 자연스럽게 녹아든 디지털 활용</div>
+      </div>
+      <div class="common-item">
+        <div class="emoji">🙋</div>
+        <div class="ci-title">소외 없는 전체 참여</div>
+        <div class="ci-desc">모든 학생이 참여할 수 있도록 구조화된 수업 설계</div>
+      </div>
+      <div class="common-item">
+        <div class="emoji">🎯</div>
+        <div class="ci-title">학과·학생 특성 반영</div>
+        <div class="ci-desc">대상을 명확히 파악하고, 그에 맞게 재구성한 내용 구성</div>
+      </div>
+      <div class="common-item">
+        <div class="emoji">🔴</div>
+        <div class="ci-title">실시간 시각화·피드백</div>
+        <div class="ci-desc">리더보드·투표 결과 등 즉각적인 피드백으로 몰입도 유지</div>
+      </div>
+      <div class="common-item">
+        <div class="emoji">🔥</div>
+        <div class="ci-title">교사의 열정과 준비</div>
+        <div class="ci-desc">공개수업 부담에도 흔들리지 않는 철저한 준비와 에너지</div>
+      </div>
+      <div class="common-item">
+        <div class="emoji">🔗</div>
+        <div class="ci-title">실생활 연결</div>
+        <div class="ci-desc">디자인 패턴, 채용 AI 편향 등 학생 삶과 연결된 개념 제시</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare-grid">
+    <div class="compare-col math">
+      <h3>🔢 한현근 선생님 수업의 특별함</h3>
+      <div class="theme-tag-list">
+        <div class="theme-tag math-t"><span class="icon">🎨</span><div class="text"><b>수학 × 시각디자인 융합</b>등차수열 원리를 타일 패턴으로 시각화 — 추상 개념이 눈에 보이게</div></div>
+        <div class="theme-tag math-t"><span class="icon">🏃</span><div class="text"><b>교실 공간 활용 이동 수업</b>QR코드를 교실 곳곳에 배치, 학생들이 직접 돌아다니며 참여</div></div>
+        <div class="theme-tag math-t"><span class="icon">📊</span><div class="text"><b>개인 → 모둠 → 학급 전체 확장</b>내 공식이 합쳐져 학급 전체 패턴이 완성되는 집단적 성취감</div></div>
+        <div class="theme-tag math-t"><span class="icon">🎮</span><div class="text"><b>난이도별 리더보드 게임화</b>상·중·하 난이도와 실시간 점수로 적극적 참여 유도</div></div>
+      </div>
+    </div>
+    <div class="compare-col ai">
+      <h3>🤖 정회진 선생님 수업의 특별함</h3>
+      <div class="theme-tag-list">
+        <div class="theme-tag ai-t"><span class="icon">⚖️</span><div class="text"><b>철학적 딜레마로 수업 진입</b>트롤리 딜레마 → AI 편향 문제로 자연스러운 관심 전이</div></div>
+        <div class="theme-tag ai-t"><span class="icon">🗣️</span><div class="text"><b>학생의 거친 답변을 정교화</b>학생 발언을 교과 맥락에 맞게 다듬어 주는 세심한 교사 피드백</div></div>
+        <div class="theme-tag ai-t"><span class="icon">🏛️</span><div class="text"><b>'편향방지위원회' 역할 부여</b>역할극을 통해 발산적 사고와 활발한 모둠 토론 유도</div></div>
+        <div class="theme-tag ai-t"><span class="icon">🖥️</span><div class="text"><b>캔바 · AI클래스 협업 플랫폼</b>학생 활동 과정을 실시간으로 시각화하여 역동성 극대화</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토론 섹션 -->
+  <div class="discussion-block">
+    <div class="block-title">💬 수업 나눔 토론 — 함께 생각해봐요</div>
+
+    <!-- 질문 미리보기 -->
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:28px;">
+      <div style="display:flex;gap:16px;align-items:flex-start;background:#eef4ff;border-radius:16px;padding:18px 20px;border-left:5px solid #3a6bbf;">
+        <span style="font-size:15px;font-weight:900;color:#3a6bbf;flex-shrink:0;padding-top:2px;">Q1</span>
+        <span style="font-size:16px;line-height:1.7;color:#2a2a2a;font-weight:700;">학생이 반짝일 수 있도록 할 수 있는 <b style="color:#3a6bbf;">수업 장치</b>는 뭐가 있을까요?</span>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;background:#f0eeff;border-radius:16px;padding:18px 20px;border-left:5px solid #7050c0;">
+        <span style="font-size:15px;font-weight:900;color:#7050c0;flex-shrink:0;padding-top:2px;">Q2</span>
+        <span style="font-size:16px;line-height:1.7;color:#2a2a2a;font-weight:700;">소외 없는 <b style="color:#7050c0;">전체 참여</b>를 가능하게 하는 수업 장치나 교사 행동은 무엇일까요?</span>
+      </div>
+      <div style="display:flex;gap:16px;align-items:flex-start;background:#eafaf4;border-radius:16px;padding:18px 20px;border-left:5px solid #2e8b6a;">
+        <span style="font-size:15px;font-weight:900;color:#2e8b6a;flex-shrink:0;padding-top:2px;">Q3</span>
+        <span style="font-size:16px;line-height:1.7;color:#2a2a2a;font-weight:700;">내 수업으로 가져가고 싶은(배우고 싶은) <b style="color:#2e8b6a;">에듀테크 수업 도구 및 장치</b>는?</span>
+      </div>
+    </div>
+
+    <!-- 발표 화면 모드 / 응답 모드 전환 -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;">
+      <button onclick="setMode('display')" id="btn-display" style="flex:1;padding:14px 10px;border-radius:30px;border:2px solid #3a6bbf;background:#3a6bbf;color:#fff;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;line-height:1.3;">🖥️ 발표 화면</button>
+      <button onclick="setMode('submit')" id="btn-submit" style="flex:1;padding:14px 10px;border-radius:30px;border:2px solid #3a6bbf;background:#fff;color:#3a6bbf;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;line-height:1.3;">📱 응답 제출</button>
+      <button onclick="clearAll()" style="padding:14px 12px;border-radius:30px;border:2px solid #ddd;background:#fff;color:#aaa;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;" title="초기화">🗑️</button>
+    </div>
+
+    <!-- 응답 제출 폼 (스마트폰용) -->
+    <div id="mode-submit">
+      <div style="background:#f5f3ef;border-radius:18px;padding:26px 22px;border:1.5px solid #e4e0d8;">
+        <p style="font-size:15px;color:#888;margin-bottom:22px;text-align:center;font-weight:700;">이름을 입력하고 세 질문에 답해주세요 📝</p>
+
+        <div style="margin-bottom:16px;">
+          <label style="font-size:14px;font-weight:800;color:#555;display:block;margin-bottom:8px;">이름 (선택)</label>
+          <input id="inp-name" type="text" placeholder="예: 홍길동 선생님" style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e0dcda;font-family:inherit;font-size:15px;outline:none;background:#fff;">
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="font-size:15px;font-weight:800;color:#3a6bbf;display:block;margin-bottom:8px;">
+            Q1. 학생이 반짝일 수 있도록 할 수 있는 수업 장치는 뭐가 있을까요?
+          </label>
+          <textarea id="inp-q1" rows="3" placeholder="예: 자기 결과물이 즉시 화면에 시각화되는 장치, 게임처럼 점수가 보이는 리더보드 등" style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e0dcda;font-family:inherit;font-size:15px;resize:vertical;outline:none;line-height:1.7;background:#fff;"></textarea>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="font-size:15px;font-weight:800;color:#7050c0;display:block;margin-bottom:8px;">
+            Q2. 소외 없는 전체 참여를 가능하게 하는 수업 장치나 교사 행동은 무엇일까요?
+          </label>
+          <textarea id="inp-q2" rows="3" placeholder="예: 난이도별 문제로 누구나 자기 수준에서 시작할 수 있게 하기, 먼저 푼 학생이 다른 학생을 돕는 또래 교수 구조 등" style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e0dcda;font-family:inherit;font-size:15px;resize:vertical;outline:none;line-height:1.7;background:#fff;"></textarea>
+        </div>
+
+        <div style="margin-bottom:22px;">
+          <label style="font-size:15px;font-weight:800;color:#2e8b6a;display:block;margin-bottom:8px;">
+            Q3. 내 수업으로 가져가고 싶은(배우고 싶은) 에듀테크 수업 도구 및 장치는?
+          </label>
+          <textarea id="inp-q3" rows="3" placeholder="예: AI 클래스, 실시간 리더보드, 캔바 협업 기능, QR 이동 수업 등" style="width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e0dcda;font-family:inherit;font-size:15px;resize:vertical;outline:none;line-height:1.7;background:#fff;"></textarea>
+        </div>
+
+        <button onclick="submitResponse()" id="submit-btn" style="width:100%;padding:16px;border-radius:30px;border:none;background:#3a6bbf;color:#fff;font-family:inherit;font-size:16px;font-weight:800;cursor:pointer;">제출하기 ✉️</button>
+        <div id="submit-msg" style="display:none;text-align:center;margin-top:14px;font-size:15px;color:#2e8b6a;font-weight:800;">✅ 제출되었습니다! 발표 화면에서 확인하세요.</div>
+      </div>
+    </div>
+
+    <!-- 발표 화면: 전체 응답 시각화 -->
+    <div id="mode-display" style="display:none;">
+
+      <!-- 실시간 카운터 배너 (항상 표시) -->
+      <div id="live-counter" style="background:linear-gradient(135deg,#3a6bbf,#7050c0);border-radius:18px;padding:16px 18px;margin-bottom:20px;color:#fff;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#7eff9a;box-shadow:0 0 8px #7eff9a;animation:pulse 1.5s infinite;flex-shrink:0;"></div>
+            <span style="font-size:14px;font-weight:800;opacity:0.9;">실시간 응답 현황</span>
+          </div>
+          <div id="last-updated" style="font-size:11px;font-weight:700;opacity:0.6;text-align:right;line-height:1.5;">마지막 업데이트<br>—</div>
+        </div>
+        <div style="display:flex;gap:0;align-items:stretch;background:rgba(255,255,255,0.12);border-radius:14px;overflow:hidden;">
+          <div style="flex:2;text-align:center;padding:14px 8px;border-right:1px solid rgba(255,255,255,0.2);">
+            <div id="counter-total" style="font-size:36px;font-weight:900;line-height:1;">0</div>
+            <div style="font-size:12px;font-weight:700;opacity:0.75;margin-top:4px;">총 응답자</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:14px 8px;border-right:1px solid rgba(255,255,255,0.2);">
+            <div id="counter-q1" style="font-size:26px;font-weight:900;line-height:1;">0</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.75;margin-top:4px;">Q1</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:14px 8px;border-right:1px solid rgba(255,255,255,0.2);">
+            <div id="counter-q2" style="font-size:26px;font-weight:900;line-height:1;">0</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.75;margin-top:4px;">Q2</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:14px 8px;">
+            <div id="counter-q3" style="font-size:26px;font-weight:900;line-height:1;">0</div>
+            <div style="font-size:11px;font-weight:700;opacity:0.75;margin-top:4px;">Q3</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="display-empty" style="text-align:center;padding:52px 20px;color:#bbb;">
+        <div style="font-size:44px;margin-bottom:14px;">📭</div>
+        <div style="font-size:16px;font-weight:700;line-height:1.8;">아직 제출된 응답이 없어요.<br>선생님들이 📱 응답 제출하기를 눌러 작성해주세요!</div>
+      </div>
+
+      <div id="responses-container" style="display:none;">
+
+        <!-- Q별 탭 -->
+        <div style="display:flex;gap:8px;margin-bottom:20px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;">
+          <button onclick="showQ(1)" id="qtab-1" class="qtab qtab-active" style="white-space:nowrap;flex-shrink:0;">Q1 수업 장치</button>
+          <button onclick="showQ(2)" id="qtab-2" class="qtab" style="white-space:nowrap;flex-shrink:0;">Q2 전체 참여</button>
+          <button onclick="showQ(3)" id="qtab-3" class="qtab" style="white-space:nowrap;flex-shrink:0;">Q3 에듀테크 도구</button>
+          <button onclick="showQ(0)" id="qtab-0" class="qtab" style="white-space:nowrap;flex-shrink:0;">전체 보기</button>
+        </div>
+
+        <div id="q-panels"></div>
+
+        <!-- AI 요약 버튼 -->
+        <div style="margin-top:28px;text-align:center;">
+          <button onclick="generateSummary()" id="summary-btn" style="padding:14px 32px;border-radius:30px;border:none;background:linear-gradient(135deg,#3a6bbf,#7050c0);color:#fff;font-family:inherit;font-size:15px;font-weight:800;cursor:pointer;">✨ AI로 응답 핵심 요약하기</button>
+        </div>
+        <div id="summary-area" style="display:none;margin-top:20px;background:linear-gradient(135deg,#eef4ff,#f0eeff);border-radius:18px;padding:28px 26px;border:1.5px solid #c8d8f8;">
+          <div style="font-size:14px;font-weight:800;color:#5580cc;margin-bottom:16px;">✨ AI 요약</div>
+          <div id="summary-text" style="font-size:15px;line-height:1.9;white-space:pre-wrap;color:#2a2a2a;font-weight:400;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</main>
+
+<style>
+.qtab {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 2px solid #dde4f0;
+  background: #fff;
+  font-family: 'Nanum Gothic', 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  color: #6688aa;
+  transition: all 0.15s;
+}
+.qtab-active {
+  background: #3a6bbf;
+  color: #fff;
+  border-color: #3a6bbf;
+}
+.resp-card {
+  background: #fff;
+  border-radius: 16px;
+  border: 1.5px solid #e4e8f0;
+  padding: 20px 22px;
+  margin-bottom: 12px;
+  animation: fadeUp 0.3s ease;
+}
+.resp-card .resp-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #8899bb;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.resp-card .resp-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #2a2a2a;
+  font-weight: 400;
+}
+.resp-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #3a6bbf;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(6px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+</style>
+
+<script>
+const STORAGE_KEY = 'suebnalum-responses-2026';
+
+// ── 모드 전환
+function setMode(mode) {
+  document.getElementById('mode-submit').style.display  = mode === 'submit'  ? 'block' : 'none';
+  document.getElementById('mode-display').style.display = mode === 'display' ? 'block' : 'none';
+  document.getElementById('btn-display').style.background = mode === 'display' ? '#3a6bbf' : '#fff';
+  document.getElementById('btn-display').style.color      = mode === 'display' ? '#fff'    : '#3a6bbf';
+  document.getElementById('btn-submit').style.background  = mode === 'submit'  ? '#3a6bbf' : '#fff';
+  document.getElementById('btn-submit').style.color       = mode === 'submit'  ? '#fff'    : '#3a6bbf';
+  if (mode === 'display') fullRefresh();
+}
+
+// ── Storage 읽기/쓰기
+async function loadResponses() {
+  try {
+    const r = await window.storage.get(STORAGE_KEY, true);
+    return r ? JSON.parse(r.value) : [];
+  } catch { return []; }
+}
+async function saveResponses(arr) {
+  try { await window.storage.set(STORAGE_KEY, JSON.stringify(arr), true); } catch(e) { console.error(e); }
+}
+
+// ── 초기화
+async function clearAll() {
+  if (!confirm('모든 응답을 삭제할까요?')) return;
+  try { await window.storage.delete(STORAGE_KEY, true); } catch {}
+  allResponses = [];
+  autoWordCloudCache = {};
+  fullRefresh();
+}
+
+// ── 제출 → 저장 즉시 발표화면 반영
+async function submitResponse() {
+  const name = document.getElementById('inp-name').value.trim() || '익명';
+  const q1   = document.getElementById('inp-q1').value.trim();
+  const q2   = document.getElementById('inp-q2').value.trim();
+  const q3   = document.getElementById('inp-q3').value.trim();
+  if (!q1 && !q2 && !q3) { alert('하나 이상의 질문에 답해주세요!'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = '제출 중...'; btn.disabled = true;
+
+  const responses = await loadResponses();
+  responses.push({ name, q1, q2, q3, time: Date.now() });
+  await saveResponses(responses);
+
+  // 제출 직후 발표화면도 즉시 갱신
+  allResponses = responses;
+  autoWordCloudCache = {}; // 새 응답 왔으니 워드클라우드 재분석
+  updateCounter();
+  if (document.getElementById('mode-display').style.display !== 'none') {
+    showDisplayContent();
+    renderPanel();
+    triggerAutoWordCloud();
+  }
+
+  btn.textContent = '제출하기 ✉️'; btn.disabled = false;
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-q1').value = '';
+  document.getElementById('inp-q2').value = '';
+  document.getElementById('inp-q3').value = '';
+  const msg = document.getElementById('submit-msg');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+
+// ── 현재 Q 탭
+let currentQ = 1;
+function showQ(q) {
+  currentQ = q;
+  document.querySelectorAll('.qtab').forEach(t => t.classList.remove('qtab-active'));
+  document.getElementById('qtab-' + q).classList.add('qtab-active');
+  renderPanel();
+  if (q !== 0) triggerAutoWordCloud();
+}
+
+const QLABELS = {
+  1: { label: 'Q1', title: '학생이 반짝일 수 있도록 할 수 있는 수업 장치는?', color: '#3a6bbf', bg: '#eef4ff', light: '#ddeaff' },
+  2: { label: 'Q2', title: '소외 없는 전체 참여를 가능하게 하는 수업 장치나 교사 행동은?', color: '#7050c0', bg: '#f0eeff', light: '#e0d8ff' },
+  3: { label: 'Q3', title: '내 수업으로 가져가고 싶은(배우고 싶은) 에듀테크 수업 도구 및 장치는?', color: '#2e8b6a', bg: '#eafaf4', light: '#c8f0e0' },
+};
+
+let allResponses = [];
+let autoWordCloudCache = {}; // { q: { data, responseCount } }
+
+// ── 전체 새로고침 (외부 폴링 용)
+async function fullRefresh() {
+  const prev = allResponses.length;
+  const prevLast = allResponses[allResponses.length - 1]?.time || 0;
+  allResponses = await loadResponses();
+  const currLast = allResponses[allResponses.length - 1]?.time || 0;
+
+  updateCounter();
+  showDisplayContent();
+
+  // 새 응답이 실제로 추가됐을 때만 패널 + 워드클라우드 갱신
+  const hasNew = allResponses.length !== prev || currLast !== prevLast;
+  if (hasNew) {
+    autoWordCloudCache = {};
+    renderPanel();
+    if (currentQ !== 0) triggerAutoWordCloud();
+  }
+}
+
+function showDisplayContent() {
+  const empty = document.getElementById('display-empty');
+  const cont  = document.getElementById('responses-container');
+  if (allResponses.length === 0) {
+    empty.style.display = 'block'; cont.style.display = 'none';
+  } else {
+    empty.style.display = 'none'; cont.style.display = 'block';
+  }
+}
+
+// ── 카운터 업데이트
+function updateCounter() {
+  const total = allResponses.length;
+  const q1cnt = allResponses.filter(r => r.q1?.trim()).length;
+  const q2cnt = allResponses.filter(r => r.q2?.trim()).length;
+  const q3cnt = allResponses.filter(r => r.q3?.trim()).length;
+
+  const animateNum = (id, val) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.textContent !== String(val)) {
+      el.style.transform = 'scale(1.35)';
+      el.style.transition = 'transform 0.2s ease';
+      el.textContent = val;
+      setTimeout(() => { el.style.transform = 'scale(1)'; }, 220);
+    }
+  };
+  animateNum('counter-total', total);
+  animateNum('counter-q1', q1cnt);
+  animateNum('counter-q2', q2cnt);
+  animateNum('counter-q3', q3cnt);
+
+  const el = document.getElementById('last-updated');
+  if (el) {
+    const t = new Date().toLocaleTimeString('ko-KR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+    el.innerHTML = `마지막 업데이트<br>${t}`;
+  }
+}
+
+// ── 패널 렌더
+function renderPanel() {
+  const panel = document.getElementById('q-panels');
+  if (!panel) return;
+  panel.innerHTML = '';
+
+  if (currentQ === 0) {
+    if (allResponses.length === 0) return;
+    allResponses.slice().reverse().forEach((r) => {
+      const card = document.createElement('div');
+      card.className = 'resp-card';
+      card.innerHTML = `
+        <div class="resp-name">
+          <span class="resp-avatar">${r.name.slice(0,1)}</span>
+          <span style="font-size:16px;font-weight:800;color:#2a2a2a;">${escHtml(r.name)}</span>
+          <span style="margin-left:auto;font-size:12px;color:#bbb;font-weight:700;">${new Date(r.time).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'})}</span>
+        </div>
+        ${r.q1?`<div style="margin-bottom:10px;padding:12px 14px;background:#eef4ff;border-radius:12px;"><div style="font-size:11px;font-weight:900;color:#3a6bbf;margin-bottom:5px;">Q1</div><div style="font-size:15px;line-height:1.8;color:#222;">${escHtml(r.q1)}</div></div>`:''}
+        ${r.q2?`<div style="margin-bottom:10px;padding:12px 14px;background:#f0eeff;border-radius:12px;"><div style="font-size:11px;font-weight:900;color:#7050c0;margin-bottom:5px;">Q2</div><div style="font-size:15px;line-height:1.8;color:#222;">${escHtml(r.q2)}</div></div>`:''}
+        ${r.q3?`<div style="padding:12px 14px;background:#eafaf4;border-radius:12px;"><div style="font-size:11px;font-weight:900;color:#2e8b6a;margin-bottom:5px;">Q3</div><div style="font-size:15px;line-height:1.8;color:#222;">${escHtml(r.q3)}</div></div>`:''}
+      `;
+      panel.appendChild(card);
+    });
+    return;
+  }
+
+  const qkey = 'q' + currentQ;
+  const meta = QLABELS[currentQ];
+  const filled = allResponses.filter(r => r[qkey]?.trim());
+
+  // 질문 헤더
+  const header = document.createElement('div');
+  header.style.cssText = `background:${meta.color};color:#fff;border-radius:18px;padding:18px 20px;margin-bottom:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;`;
+  header.innerHTML = `
+    <span style="font-size:22px;font-weight:900;opacity:0.35;">${meta.label}</span>
+    <span style="font-size:16px;font-weight:800;line-height:1.5;flex:1;">${meta.title}</span>
+    ${filled.length > 0 ? `<span style="background:rgba(255,255,255,0.25);border-radius:20px;padding:5px 14px;font-size:14px;font-weight:800;white-space:nowrap;">${filled.length}명 응답</span>` : ''}
+  `;
+  panel.appendChild(header);
+
+  if (filled.length === 0) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'text-align:center;padding:40px 16px;color:#bbb;';
+    empty.innerHTML = `<div style="font-size:32px;margin-bottom:10px;">💬</div><div style="font-size:15px;font-weight:700;">아직 응답이 없어요.</div>`;
+    panel.appendChild(empty);
+    return;
+  }
+
+  // 워드클라우드 박스 (자동 분석)
+  const wBox = document.createElement('div');
+  wBox.id = 'wc-box-' + currentQ;
+  wBox.style.cssText = `background:${meta.bg};border-radius:18px;padding:20px;margin-bottom:20px;border:2px solid ${meta.light};min-height:80px;`;
+
+  const cached = autoWordCloudCache[currentQ];
+  if (cached) {
+    wBox.innerHTML = buildWordCloudHtml(cached, meta);
+  } else {
+    wBox.innerHTML = `<div style="text-align:center;color:#bbb;font-size:14px;font-weight:700;padding:16px 0;">🔍 키워드 분석 중...</div>`;
+  }
+  panel.appendChild(wBox);
+
+  // 응답 카드 그리드
+  const gridLabel = document.createElement('div');
+  gridLabel.style.cssText = 'font-size:12px;font-weight:900;color:#bbb;margin-bottom:10px;letter-spacing:.05em;';
+  gridLabel.textContent = '📋 전체 응답';
+  panel.appendChild(gridLabel);
+
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;';
+  filled.slice().reverse().forEach((r, idx) => {
+    const card = document.createElement('div');
+    card.style.cssText = `background:#fff;border-radius:16px;border:2px solid ${meta.light};padding:18px 16px;animation:fadeUp 0.3s ease both;animation-delay:${idx*0.04}s;display:flex;flex-direction:column;gap:10px;`;
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:9px;">
+        <span style="width:32px;height:32px;border-radius:50%;background:${meta.color};color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${r.name.slice(0,1)}</span>
+        <span style="font-size:14px;font-weight:800;color:#3a3a3a;">${escHtml(r.name)}</span>
+      </div>
+      <div style="background:${meta.bg};border-radius:11px;padding:12px 14px;font-size:15px;line-height:1.85;color:#1a1a1a;word-break:keep-all;">${escHtml(r[qkey])}</div>
+    `;
+    grid.appendChild(card);
+  });
+  panel.appendChild(grid);
+}
+
+// ── 자동 워드클라우드 트리거 (AI 호출)
+let wcAnalyzing = {};
+async function triggerAutoWordCloud() {
+  const q = currentQ;
+  if (q === 0) return;
+  const qkey = 'q' + q;
+  const meta = QLABELS[q];
+  const filled = allResponses.filter(r => r[qkey]?.trim());
+  if (filled.length === 0) return;
+
+  // 이미 분석 중이거나 캐시 최신이면 skip
+  const cached = autoWordCloudCache[q];
+  if (wcAnalyzing[q]) return;
+  if (cached && cached.responseCount === filled.length) return;
+
+  wcAnalyzing[q] = true;
+
+  const texts = filled.map((r, i) => `응답${i+1}: ${r[qkey]}`).join('\n');
+  const prompt = `교사 수업 나눔 응답에서 핵심 키워드를 추출해주세요. JSON만 반환하세요.
+질문: ${meta.title}
+응답:\n${texts}
+형식: {"keywords":[{"text":"키워드","count":숫자},...]}
+규칙: 2~8글자 명사/동사구, 여러 응답 반복 시 count 높게(최대5), 총 8~14개`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content?.[0]?.text || '';
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error();
+    const parsed = JSON.parse(m[0]);
+    autoWordCloudCache[q] = { ...parsed, responseCount: filled.length };
+
+    // 현재 보고 있는 Q면 바로 반영
+    if (currentQ === q) {
+      const box = document.getElementById('wc-box-' + q);
+      if (box) box.innerHTML = buildWordCloudHtml(autoWordCloudCache[q], meta);
+    }
+  } catch(e) {
+    const box = document.getElementById('wc-box-' + q);
+    if (box && currentQ === q) box.innerHTML = `<div style="text-align:center;color:#ccc;font-size:13px;font-weight:700;padding:12px;">키워드 분석 실패 — 응답이 더 쌓이면 자동 재시도해요.</div>`;
+  }
+  wcAnalyzing[q] = false;
+}
+
+// ── 워드클라우드 HTML 생성
+function buildWordCloudHtml(data, meta) {
+  const keywords = (data.keywords || []).sort((a,b) => b.count - a.count);
+  if (keywords.length === 0) return '';
+  const maxC = Math.max(...keywords.map(k => k.count), 1);
+
+  const palettes = {
+    '#3a6bbf': ['#1a4a9f','#3a6bbf','#5a8be0','#2a5aaf','#4a7bcf','#7aabff','#8ab0ee'],
+    '#7050c0': ['#5030a0','#7050c0','#9070e0','#6040b0','#8060d0','#b090ff','#a080f0'],
+    '#2e8b6a': ['#1a6a50','#2e8b6a','#3eab8a','#268060','#38a080','#50c8a0','#48c090'],
+  };
+  const colors = palettes[meta.color] || palettes['#3a6bbf'];
+
+  const sizeOf = (c) => {
+    const r = c / maxC;
+    if (r >= 0.9) return { sz:34, fw:900, op:1 };
+    if (r >= 0.7) return { sz:27, fw:800, op:0.95 };
+    if (r >= 0.5) return { sz:21, fw:700, op:0.9 };
+    if (r >= 0.3) return { sz:17, fw:600, op:0.8 };
+    return { sz:14, fw:500, op:0.65 };
+  };
+
+  const header = `<div style="font-size:12px;font-weight:900;color:${meta.color};opacity:0.7;margin-bottom:12px;letter-spacing:.05em;">✨ 자주 나온 키워드</div>`;
+  const cloud = keywords.map((k, i) => {
+    const { sz, fw, op } = sizeOf(k.count);
+    const col = colors[i % colors.length];
+    const badge = k.count > 1 ? '' : '';
+    return `<span style="font-size:${sz}px;font-weight:${fw};color:${col};opacity:${op};display:inline-block;margin:5px 7px;line-height:1.3;cursor:default;transition:transform .15s;animation:fadeUp .3s ease both;animation-delay:${i*0.04}s;"
+      onmouseover="this.style.transform='scale(1.12)'" onmouseout="this.style.transform='scale(1)'">${escHtml(k.text)}${badge}</span>`;
+  }).join('');
+
+  return header + `<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;padding:4px 0;">${cloud}</div>`;
+}
+
+// ── AI 전체 요약
+async function generateSummary() {
+  const btn = document.getElementById('summary-btn');
+  const area = document.getElementById('summary-area');
+  const text = document.getElementById('summary-text');
+  btn.textContent = '요약 생성 중...'; btn.disabled = true;
+  area.style.display = 'block';
+  text.textContent = '...';
+
+  const lines = allResponses.map(r =>
+    `[${r.name}]\nQ1: ${r.q1||'(없음)'}\nQ2: ${r.q2||'(없음)'}\nQ3: ${r.q3||'(없음)'}`
+  ).join('\n\n');
+
+  const prompt = `다음은 교사들의 수업 나눔 응답입니다. 각 질문별로 공통 주제와 핵심 인사이트를 3~5줄로 요약해주세요. 불필요한 서두 없이 바로 시작하고, 각 질문은 소제목으로 구분해주세요.\n\n질문:\nQ1. 학생이 반짝일 수 있도록 할 수 있는 수업 장치는?\nQ2. 소외 없는 전체 참여를 가능하게 하는 수업 장치나 교사 행동은?\nQ3. 내 수업으로 가져가고 싶은(배우고 싶은) 에듀테크 수업 도구 및 장치는?\n\n응답:\n${lines}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, messages:[{role:'user',content:prompt}] })
+    });
+    const data = await res.json();
+    text.textContent = data.content?.[0]?.text || '요약을 생성할 수 없었어요.';
+  } catch { text.textContent = '요약 생성 중 오류가 발생했어요.'; }
+  btn.textContent = '✨ AI로 응답 핵심 요약하기'; btn.disabled = false;
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// ── 수업 내용 탭 전환
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-math','active-ai','active-compare'));
+  document.getElementById('section-' + name).classList.add('visible');
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (name === 'math')    tabs[0].classList.add('active-math');
+  if (name === 'ai')      tabs[1].classList.add('active-ai');
+  if (name === 'compare') tabs[2].classList.add('active-compare');
+  animateBars();
+}
+function animateBars() {
+  document.querySelectorAll('.bar-fill').forEach(b => {
+    b.style.width = '0';
+    const t = b.getAttribute('data-w');
+    setTimeout(() => { b.style.width = t; }, 80);
+  });
+}
+
+// ── 초기화
+window.addEventListener('load', () => {
+  document.querySelectorAll('.bar-fill').forEach(b => {
+    b.style.width = '0';
+    const t = b.getAttribute('data-w');
+    setTimeout(() => { b.style.width = t; }, 400);
+  });
+  setMode('display');
+});
+
+// ── 3초 폴링 (다른 기기 응답 실시간 반영)
+setInterval(async () => {
+  if (document.getElementById('mode-display').style.display !== 'none') {
+    await fullRefresh();
+  }
+}, 3000);
+</script>
+</body>
+</html>
